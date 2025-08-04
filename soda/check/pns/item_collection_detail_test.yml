@@ -1,0 +1,8 @@
+checks for item_collection_detail_test:
+  - schema:
+      fail:
+        when required column missing: [
+          lading_code, postman_code, service_code, service_collection_code,
+          collection_route_code, weight, transport_type, collection_main,
+          acceptance_date, contract_type, hrm_code, district_code, province_code, etl_date
+        ]

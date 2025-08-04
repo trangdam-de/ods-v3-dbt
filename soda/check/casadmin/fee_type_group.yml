@@ -1,0 +1,12 @@
+checks for fee_type_group:
+  - schema:
+      fail:
+        when required column missing: [fee_type_group_id, fee_type_group_name, created, createdby, updated, status]
+        when wrong column type: 
+          fee_type_group_id: varchar
+          fee_type_group_name: varchar
+          created: timestamp
+          createdby: varchar
+          updated: timestamp
+          status: bigint
+          

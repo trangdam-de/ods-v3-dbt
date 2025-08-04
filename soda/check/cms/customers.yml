@@ -1,0 +1,16 @@
+checks for customers:
+  - schema:
+      fail:
+        when required column missing: [
+          accnt_id, accnt_type, accnt_code, account_parent_id, accnt_name, accnt_gender,
+          accnt_dob, accnt_career_id, accnt_en_name, accnt_ab_name, accnt_fax, accnt_website,
+          accnt_business_place, accnt_business_number, accnt_email, accnt_doctype,
+          accnt_docnumber, accnt_docplace, accnt_docdatecreate, accnt_tel1, accnt_tel2,
+          accnt_tel3, accnt_add_city, accnt_add_pro, accnt_add_ward, accnt_add, created_date,
+          created_user, managed_org, accnt_status, accnt_career, accnt_idf_number,
+          accnt_empcode_mgr, accnt_is_parent, accnt_modify_date, accnt_custype,
+          accnt_card_expiration_date, accnt_social_insurance, accnt_customer_group_id,
+          accnt_business_area, accnt_ischildren, accnt_postcode, accnt_refid, crm_refid,
+          system_refid, account_parent_code, accnt_empl_fullname, db_old_parent_code, kt1,
+          kt1_type, ghichuphat, v_post_code, lon, lat
+        ]

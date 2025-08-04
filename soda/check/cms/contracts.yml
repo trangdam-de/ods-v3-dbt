@@ -1,0 +1,12 @@
+checks for contracts:
+  - schema:
+      fail:
+        when required column missing: [
+          contract_id, contract_name, contract_number, accnt_id, contract_sig_date,
+          contract_srv, contract_valid_date, contract_exp_date, contract_renew_date,
+          contract_renew_due, created_date, created_user, contract_status, contract_mgr_org,
+          managed_user, contract_address_sign, contract_method_pay, contract_auto_renew,
+          contract_type, contract_attached_file, contract_type_service,
+          contract_expiry_renewal_date, contract_sig_date_first, payment_limit,
+          contract_service_cat, contract_classify
+        ]

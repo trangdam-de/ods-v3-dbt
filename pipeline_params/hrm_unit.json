@@ -1,0 +1,34 @@
+{
+ "hrm_unit": {
+    "staging_conn_id": "staging_conn_id",
+    "des_schema_name": "hrm",
+    "des_table_name": "unit",
+    "src_columns": {
+          "DonVi_ID": "Int64",
+          "ID_CapTren": "Int64",
+          "ID_CapDonVi": "Int64",
+          "MaDonVi": "string",
+          "TenDonVi": "string",
+          "TenDonViFull": "string",
+          "MaCapTren": "string",
+          "ID_BuuDienTinh": "Int64",
+          "MaBuuDienTinh": "string",
+          "NgayTao": "datetime64[ns]",
+          "NgayCapNhat": "datetime64[ns]",
+          "TrangThaiSuDung": "Int64"
+      },
+    "des_columns":[     "unit_id",
+                        "parent_id",
+                        "level_id",
+                        "unit_code",
+                        "unit_name",
+                        "unit_fullname",
+                        "parent_code",
+                        "province_id",
+                        "province_code",
+                        "created_date",
+                        "updated_date",
+                        "status"
+                  ]
+  }
+}

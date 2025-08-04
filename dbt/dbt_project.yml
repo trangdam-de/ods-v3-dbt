@@ -1,0 +1,121 @@
+# DBT Project Configuration for ODS ETL System
+name: 'ods_etl'
+version: '1.0.0'
+config-version: 2
+
+# This setting configures which "profile" dbt uses for this project.
+profile: 'ods_etl'
+
+# These configurations specify where dbt should look for different types of files.
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"  # directory which will store compiled SQL files
+clean-targets:         # directories to be removed by `dbt clean`
+  - "target"
+  - "dbt_packages"
+
+# Configuring models
+models:
+  ods_etl:
+    # Staging models - raw data with minimal transformations
+    staging:
+      +materialized: view
+      +schema: staging
+    
+    # Intermediate models - business logic and cleaning
+    intermediate:
+      +materialized: view
+      +schema: intermediate
+    
+    # Marts models - final business entities
+    marts:
+      +materialized: table
+      +schema: marts
+      
+    # Source-specific models
+    casreport:
+      +materialized: table
+      +schema: casreport
+      staging:
+        +materialized: view
+        +schema: staging
+    
+    bccp:
+      +materialized: table
+      +schema: bccp
+      staging:
+        +materialized: view
+        +schema: staging
+    
+    cms:
+      +materialized: table
+      +schema: cms
+      staging:
+        +materialized: view
+        +schema: staging
+
+# Variables that can be used across the project
+vars:
+  # Default schemas
+  source_schema: 'staging'
+  target_schema: 'public'
+  
+  # Data processing configurations
+  batch_size: 50000
+  max_retries: 3
+  
+  # Source system configurations
+  casreport:
+    source_schema: "staging"
+    target_schema: "casreport"
+    source_prefix: "casreport_"
+  
+  bccp:
+    source_schema: "staging"
+    target_schema: "bccp" 
+    source_prefix: "bccp_"
+    
+  cms:
+    source_schema: "staging"
+    target_schema: "cms"
+    source_prefix: "cms_"
+
+# Testing configurations
+tests:
+  ods_etl:
+    +severity: warn  # Default severity for tests
+
+# Documentation
+docs:
+  ods_etl:
+    +enabled: true
+
+# Snapshot configurations
+snapshots:
+  ods_etl:
+    +target_schema: snapshots
+    +strategy: timestamp
+    +updated_at: updated_at
+
+# Seed configurations
+seeds:
+  ods_etl:
+    +schema: seeds
+    +quote_columns: false
+
+# On-run-start and on-run-end hooks
+on-run-start:
+  - "{{ log('Starting DBT run for ODS ETL pipeline...', info=true) }}"
+
+on-run-end:
+  - "{{ log('DBT run completed for ODS ETL pipeline.', info=true) }}"
+
+# Dispatch configuration for macros
+dispatch:
+  - macro_namespace: dbt_utils
+    search_order: ['dbt_utils']

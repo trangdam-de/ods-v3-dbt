@@ -1,0 +1,6 @@
+checks for distance_post:
+  - schema:
+      fail:
+        when required column missing: [
+          pos_send, pos_receive, distance
+        ]

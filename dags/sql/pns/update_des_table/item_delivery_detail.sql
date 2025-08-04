@@ -1,0 +1,108 @@
+DELETE FROM {{ params.des_schema_name }}.{{ params.des_table_name }} des 
+WHERE des.status_date = '{{ params.status_date }}';
+
+INSERT INTO {{ params.des_schema_name }}.{{ params.des_table_name }}
+SELECT * FROM staging.{{ params.des_schema_name }}_{{ params.des_table_name }} as src 
+WHERE src.status_date = '{{ params.status_date }}';
+
+-- DO $$
+-- DECLARE
+--     latest_etl_date DATE;
+-- BEGIN
+--     SELECT src.etl_date
+--     INTO latest_etl_date -- todo: can phai thay cai nay bang ngay chay DAG
+--     FROM staging.{{ params.des_schema_name }}_{{ params.des_table_name }} src
+--     ORDER BY src.etl_date DESC
+--     LIMIT 1;
+
+--     DELETE FROM {{ params.des_schema_name }}.{{ params.des_table_name }} des WHERE des.etl_date = latest_etl_date;
+
+--     INSERT INTO {{ params.des_schema_name }}.{{ params.des_table_name }}
+--     SELECT * FROM staging.{{ params.des_schema_name }}_{{ params.des_table_name }} as src WHERE src.etl_date = latest_etl_date;
+-- END $$;
+
+-- MERGE INTO pns.item_delivery_detail des
+-- USING staging.item_delivery_detail src
+-- MERGE INTO {{ params.des_schema_name }}.{{ params.des_table_name }} des
+-- USING staging.{{ params.des_schema_name }}_{{ params.des_table_name }} src
+-- ON des.etl_date = src.etl_date
+-- WHEN MATCHED THEN
+--     UPDATE
+--     SET lading_code          = src.lading_code,
+--         province_code        = src.province_code,
+--         district_code        = src.district_code,
+--         pos_code             = src.pos_code,
+--         postman_code         = src.postman_code,
+--         route_po_code        = src.route_po_code,
+--         status_code          = src.status_code,
+--         type_code_payroll    = src.type_code_payroll,
+--         type_name_payroll    = src.type_name_payroll,
+--         service_name_payroll = src.service_name_payroll,
+--         region_code          = src.region_code,
+--         weight               = src.weight,
+--         area_code            = src.area_code,
+--         service_code         = src.service_code,
+--         item_type_code       = src.item_type_code,
+--         status_date          = src.status_date,
+--         quantity             = src.quantity,
+--         service_pro          = src.service_pro,
+--         acceptance_pos_code  = src.acceptance_pos_code,
+--         delivery_pos_code    = src.delivery_pos_code,
+--         so_tien_thu_ho       = src.so_tien_thu_ho,
+--         customer_code        = src.customer_code,
+--         lat                  = src.lat,
+--         lon                  = src.lon,
+--         status_quantity      = src.status_quantity
+-- WHEN NOT MATCHED THEN
+--     INSERT (lading_code,
+--             province_code,
+--             district_code,
+--             pos_code,
+--             postman_code,
+--             route_po_code,
+--             status_code,
+--             type_code_payroll,
+--             type_name_payroll,
+--             service_name_payroll,
+--             region_code,
+--             weight,
+--             area_code,
+--             service_code,
+--             item_type_code,
+--             status_date,
+--             quantity,
+--             service_pro,
+--             acceptance_pos_code,
+--             delivery_pos_code,
+--             so_tien_thu_ho,
+--             customer_code,
+--             lat,
+--             lon,
+--             status_quantity,
+--             etl_date)
+--     VALUES (src.lading_code,
+--             src.province_code,
+--             src.district_code,
+--             src.pos_code,
+--             src.postman_code,
+--             src.route_po_code,
+--             src.status_code,
+--             src.type_code_payroll,
+--             src.type_name_payroll,
+--             src.service_name_payroll,
+--             src.region_code,
+--             src.weight,
+--             src.area_code,
+--             src.service_code,
+--             src.item_type_code,
+--             src.status_date,
+--             src.quantity,
+--             src.service_pro,
+--             src.acceptance_pos_code,
+--             src.delivery_pos_code,
+--             src.so_tien_thu_ho,
+--             src.customer_code,
+--             src.lat,
+--             src.lon,
+--             src.status_quantity,
+--             src.etl_date)

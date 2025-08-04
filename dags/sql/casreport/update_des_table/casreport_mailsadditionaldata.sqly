@@ -1,0 +1,75 @@
+MERGE INTO {{ params.des_schema }}.{{ params.des_table }} as des
+USING staging.{{ params.des_schema }}_{{ params.des_table }} as src
+ON (des.mailstxnid = src.mailstxnid AND
+    COALESCE(des.detailitemname, '') = COALESCE(src.detailitemname, '') AND
+    COALESCE(des.packageno, '') = COALESCE(src.packageno, ''))
+    WHEN MATCHED THEN
+    UPDATE SET 
+        detaiiitemnameeng = src.detaiiitemnameeng,
+        hscode = src.hscode,
+        quantity = src.quantity,
+        unit = src.unit,
+        weight = src.weight,
+        priceweight = src.priceweight,
+        unitpricevnd = src.unitpricevnd,
+        unitpricefccy = src.unitpricefccy,
+        pricevnd = src.pricevnd,
+        pricefccy = src.pricefccy,
+        originalcountrycode = src.originalcountrycode,
+        note = src.note,
+        packagecode = src.packagecode,
+        datetime = src.datetime,
+        length = src.length,
+        width = src.width,
+        height = src.height,
+        currencyunit = src.currencyunit,
+        update_date = src.update_date
+WHEN NOT MATCHED THEN
+    INSERT (
+        mailstxnid,
+        detailitemname,
+        detaiiitemnameeng,
+        hscode,
+        quantity,
+        unit,
+        weight,
+        priceweight,
+        unitpricevnd,
+        unitpricefccy,
+        pricevnd,
+        pricefccy,
+        originalcountrycode,
+        note,
+        packageno,
+        packagecode,
+        datetime,
+        length,
+        width,
+        height,
+        currencyunit,
+        update_date
+    )
+    VALUES (
+        src.mailstxnid,
+        src.detailitemname,
+        src.detaiiitemnameeng,
+        src.hscode,
+        src.quantity,
+        src.unit,
+        src.weight,
+        src.priceweight,
+        src.unitpricevnd,
+        src.unitpricefccy,
+        src.pricevnd,
+        src.pricefccy,
+        src.originalcountrycode,
+        src.note,
+        src.packageno,
+        src.packagecode,
+        src.datetime,
+        src.length,
+        src.width,
+        src.height,
+        src.currencyunit,
+        src.update_date
+    );

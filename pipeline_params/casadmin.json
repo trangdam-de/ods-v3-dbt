@@ -1,0 +1,190 @@
+{
+  "casadmin_organization_standard" :
+  {
+    "casadmin_conn_id": "casadmin_conn_id",
+    "staging_conn_id": "staging_conn_id",
+    "src_schema_name": "QTTT",
+    "src_table_name": "MCAS_ORGANIZATION_STANDARD",
+    "des_schema_name": "casadmin",
+    "des_table_name": "unit",
+    "columns": {
+                "UNIT_CODE": "string",
+                "UNIT_NAME": "string",
+                "UNIT_TYPE": "string",
+                "TYPE_CODE": "Int64",
+                "PARENT_CODE": "string",
+                "COMMUNE_CODE": "string",
+                "POSTAL_CODE": "string",
+                "POST_TYPE": "string",
+                "ADDRESS": "string",
+                "STATUS": "Int64",
+                "TEL": "string",
+                "DISTRICT_CODE": "string",
+                "PROVINCE_CODE": "string",
+                "VALIDATE_FROM": "object",
+                "VALIDATE_TO" : "object"
+            }
+  },
+  "casadmin_fee_type" :
+  {
+    "casadmin_conn_id": "casadmin_conn_id",
+    "staging_conn_id": "staging_conn_id",
+    "src_schema_name": "QTTT",
+    "src_table_name": "MCAS_FEE_TYPE",
+    "cursor_field": "UPDATED",
+    "des_schema_name": "casadmin",
+    "des_table_name": "fee_type",
+    "columns": {
+                "FEE_TYPE_ID": "string",
+                "FEE_TYPE_NAME": "string",
+                "FEE_TYPE_CODE": "string",
+                "FEE_TYPE_GROUP_ID": "string",
+                "CREATED": "datetime64[ns]",
+                "CREATEDBY": "string",
+                "UPDATED": "datetime64[ns]",
+                "UPDATEDBY": "string",
+                "STATUS": "Int64"
+              }
+  },
+  "casadmin_fee_type_group" :
+  {
+    "casadmin_conn_id": "casadmin_conn_id",
+    "staging_conn_id": "staging_conn_id",
+    "src_schema_name": "QTTT",
+    "src_table_name": "MCAS_FEE_TYPE_GROUP",
+    "cursor_field": "UPDATED",
+    "des_schema_name": "casadmin",
+    "des_table_name": "fee_type_group",
+    "columns": {
+                "FEE_TYPE_GROUP_ID": "string",
+                "FEE_TYPE_GROUP_NAME": "string",
+                "CREATED": "datetime64[ns]",
+                "CREATEDBY": "string",
+                "UPDATED": "datetime64[ns]",
+                "UPDATEDBY": "string",
+                "STATUS": "Int64"
+              }
+  },
+  "casadmin_va_service" :
+  {
+    "casadmin_conn_id": "casadmin_conn_id",
+    "staging_conn_id": "staging_conn_id",
+    "src_schema_name": "QTTT",
+    "src_table_name": "MCAS_VA_SERVICE",
+    "cursor_field": "UPDATED",
+    "des_schema_name": "casadmin",
+    "des_table_name": "va_service",
+    "columns": {
+                "VA_SERVICE_ID": "string",
+                "VA_SERVICE_NAME": "string",
+                "FEE_TYPE_GROUP_ID": "string",
+                "CREATED": "datetime64[ns]",
+                "CREATEDBY": "string",
+                "UPDATED": "datetime64[ns]",
+                "UPDATEDBY": "string",
+                "STATUS": "Int64",
+                "CASE": "Int64",
+                "SYMBOL": "string",
+                "INCIDENT": "Int64",
+                "TAX_DECLARATION_CODE": "string",
+                "TAX_RATE_CODE": "string"
+              }
+  },
+  "casadmin_administrative_unit":{
+    "casadmin_conn_id": "casadmin_conn_id",
+    "staging_conn_id": "staging_conn_id",
+    "src_schema_name": "QTTT",
+    "src_table_name": "MCAS_ADMINISTRATIVE_UNIT",
+    "des_schema_name": "casadmin",
+    "des_table_name": "province_district_commune",
+    "columns": {
+              "CODE": "string",
+              "NAME": "string",
+              "PARENT_CODE": "string",
+              "UNIT_TYPE": "string",
+              "OLD_ADMINISTRATIVE_CODE": "string",
+              "STATUS": "Int64",
+              "MBC_CODE": "string",
+              "COMMUNE": "string",
+              "POD": "string",
+              "HAN_TP_BCP": "string",
+              "SORTINGCODE": "string",
+              "IS_FAR": "Int64",
+              "IS_ISLAND": "Int64",
+              "IS_CENTER": "Int64"
+              }
+  },
+  "casadmin_national":{
+    "casadmin_conn_id": "casadmin_conn_id",
+    "staging_conn_id": "staging_conn_id",
+    "src_schema_name": "QTTT",
+    "src_table_name": "MCAS_NATIONAL",
+    "des_schema_name": "casadmin",
+    "des_table_name": "national",
+    "columns": {
+          "CODE": "string",
+          "NAME": "string",
+          "CREATED_DATE": "datetime64[ns]",
+          "STATUS": "Int64",
+          "CONT": "string",
+          "ENAME": "string",
+          "REGION": "string"
+        }
+  },
+  "casadmin_employee":{
+    "casadmin_conn_id": "casadmin_conn_id",
+    "staging_conn_id": "staging_conn_id",
+    "src_schema_name": "QTTT",
+    "src_table_name": "MCAS_EMPLOYEE",
+    "des_schema_name": "casadmin",
+    "des_table_name": "employee",
+    "columns": {
+            "CODE": "string",
+            "FULLNAME": "string",
+            "DATE_OF_BIRTH": "object",
+            "ID_CARD": "string",
+            "EMAIL": "string",
+            "ORG_CODE": "string",
+            "PHONE_NUMBER": "string",
+            "STATUS": "Int64",
+            "ID_CARD_TYPE": "Int64",
+            "POSITION_ID": "string",
+            "POSITION_NAME": "string",
+            "TITLE_ID": "string",
+            "TITLE_NAME": "string",
+            "GENDER": "Int64",
+            "ADDRESS": "string"
+            }
+	},
+"casadmin_service": {
+	    "casadmin_conn_id": "casadmin_conn_id",
+	    "staging_conn_id": "staging_conn_id",
+	    "src_schema_name": "QTTT",
+	    "src_table_name": "MCAS_SERVICE",
+	    "cursor_field": "UPDATED",
+	    "des_schema_name": "casadmin",
+	    "des_table_name": "service",
+	    "columns": {
+	      "MAIL_SERVICE_ID": "string",
+	      "MAIL_SERVICE_NAME": "string",
+	      "CREATED": "datetime64[ns]",
+	      "CREATEDBY": "string",
+	      "UPDATED": "datetime64[ns]",
+	      "UPDATEDBY": "string",
+	      "STATUS": "Int64",
+	      "TYPE": "string",
+	      "SCOPE": "string",
+	      "ISSIZE": "string",
+	      "SERVICE_GROUP_ID": "string",
+	      "SERVICE_REPORT": "string",
+	      "TAX_RATE_CODE": "string",
+	      "BUSINESS_CODE": "string",
+	      "CLUE_PAYMENT": "string",
+	      "TAX_DECLARATION_CODE": "string",
+	      "ITEM_CODE_ACCOUNT": "string",
+	      "SERVICE_SYMBOL": "string",
+	      "SERVICE_TYPE": "string",
+	      "IS_BILATERAL": "string"
+	    }
+}
+}

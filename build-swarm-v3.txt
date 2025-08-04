@@ -1,0 +1,2 @@
+Sau khi thực hiện xong prompt câu hỏi 9 chạy :
+chmod +x /home/trang-node1/ods_v3_spark/doisoat/airflow/setup-dbt.sh

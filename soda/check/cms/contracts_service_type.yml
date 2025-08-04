@@ -1,0 +1,6 @@
+checks for contracts_service_type:
+  - schema:
+      fail:
+        when required column missing: [
+          id, contract_id, contract_service, contract_classify, contract_service_code, c_ppa_number, release_note
+        ]

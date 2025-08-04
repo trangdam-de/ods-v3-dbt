@@ -1,0 +1,5 @@
+{
+  "acct_prefix": "COREWALLETVDS_ACCT_/COREWALLETVDS_ACCT_",
+  "client_reporting_bucket_name": "core-accounting-staging",
+  "trans_prefix": "COREWALLETVDS_TRANS_/COREWALLETVDS_TRANS_"
+}

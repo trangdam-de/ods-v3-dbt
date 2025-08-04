@@ -1,0 +1,5 @@
+checks for unit:
+  - schema:
+      fail:
+        when required column missing: [unit_code,unit_name,unit_type,type_code,parent_code,commune_code,postal_code,post_type,address,status,tel,district_code,province_code,validate_from,validate_to]
+ 

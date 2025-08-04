@@ -1,0 +1,6 @@
+checks for mail_route:
+  - schema:
+      fail:
+        when required column missing: [
+          mail_route_code, mail_route_name, price, Weight_avg, unit_id
+        ]

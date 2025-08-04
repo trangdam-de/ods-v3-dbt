@@ -1,0 +1,10 @@
+checks for route_transport_type:
+  - schema:
+      fail:
+        when required column missing: [
+          transport_number, transport_code, transport_type, transport_group,
+          capacity_register, capacity_min, capacity_max, payload_register,
+          payload_min, payload_max, lat, long, GPS_code, GPS_mobile_code,
+          contractor_code, contractor_name, note, temperature_min,
+          temperature_max, Connect_GPS_status, Is_unactive, is_lock, driver_default
+        ]

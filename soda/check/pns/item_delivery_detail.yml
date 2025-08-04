@@ -1,0 +1,10 @@
+checks for item_delivery_detail:
+  - schema:
+      fail:
+        when required column missing: [
+          lading_code, province_code, district_code, pos_code, postman_code,
+          route_po_code, status_code, type_code_payroll, type_name_payroll,
+          service_name_payroll, region_code, weight, area_code, service_code,
+          item_type_code, status_date, quantity, service_pro, acceptance_pos_code,
+          delivery_pos_code, so_tien_thu_ho, customer_code, lat, lon, status_quantity, etl_date
+        ]

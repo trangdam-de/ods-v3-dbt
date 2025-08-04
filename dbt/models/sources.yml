@@ -1,0 +1,147 @@
+# Sources configuration for ODS ETL system
+# This file defines all source tables from staging layer
+
+version: 2
+
+sources:
+  - name: staging
+    description: "Staging layer containing raw data from various source systems"
+    database: ods
+    schema: staging
+    
+    tables:
+      # CASREPORT source tables
+      - name: casreport_v_prd_srv
+        description: "Casreport service products from staging"
+        columns:
+          - name: prd_srv_code
+            description: "Service product code"
+            tests:
+              - not_null
+              - unique
+          - name: prd_srv_name
+            description: "Service product name"
+          - name: prd_srv_group_code
+            description: "Service group code"
+          - name: prd_srv_group_name
+            description: "Service group name"
+          - name: line
+            description: "Service line"
+          - name: prd_srv_code_name
+            description: "Combined service code and name"
+            
+      - name: casreport_d_row_item
+        description: "Casreport row items from staging"
+        columns:
+          - name: report_code
+            description: "Report identifier"
+          - name: row_item_code
+            description: "Row item code"
+            tests:
+              - not_null
+          - name: row_item_name
+            description: "Row item name"
+          - name: factor
+            description: "Calculation factor"
+          - name: font_size
+            description: "Display font size"
+            
+      - name: casreport_mailsitemhdr
+        description: "Casreport mail item headers from staging"
+        columns:
+          - name: item_id
+            description: "Mail item identifier"
+            tests:
+              - not_null
+              - unique
+          - name: sender_name
+            description: "Sender name"
+          - name: receiver_name
+            description: "Receiver name"
+          - name: item_date
+            description: "Item processing date"
+            
+      - name: casreport_settlements
+        description: "Casreport settlement data from staging"
+        columns:
+          - name: settlement_id
+            description: "Settlement identifier"
+            tests:
+              - not_null
+              - unique
+          - name: settlement_date
+            description: "Settlement date"
+          - name: amount
+            description: "Settlement amount"
+            tests:
+              - not_null
+              
+      # BCCP source tables
+      - name: bccp_delivery
+        description: "BCCP delivery data from staging"
+        columns:
+          - name: delivery_id
+            description: "Delivery identifier"
+            tests:
+              - not_null
+              - unique
+          - name: delivery_date
+            description: "Delivery date"
+          - name: customer_code
+            description: "Customer code"
+            
+      - name: bccp_item
+        description: "BCCP item data from staging"
+        columns:
+          - name: item_id
+            description: "Item identifier"
+            tests:
+              - not_null
+              - unique
+          - name: item_type
+            description: "Item type"
+          - name: weight
+            description: "Item weight"
+            
+      # CMS source tables  
+      - name: cms_services
+        description: "CMS services data from staging"
+        columns:
+          - name: service_id
+            description: "Service identifier"
+            tests:
+              - not_null
+              - unique
+          - name: service_name
+            description: "Service name"
+          - name: service_type
+            description: "Service type"
+
+  # Airflow metadata source (optional)
+  - name: airflow_metadata
+    description: "Airflow metadata for pipeline monitoring"
+    database: airflow
+    schema: public
+    
+    tables:
+      - name: dag_run
+        description: "DAG execution history"
+        columns:
+          - name: dag_id
+            description: "DAG identifier"
+          - name: execution_date
+            description: "Execution date"
+          - name: state
+            description: "Execution state"
+            
+      - name: task_instance
+        description: "Task execution history"
+        columns:
+          - name: dag_id
+            description: "DAG identifier"
+          - name: task_id
+            description: "Task identifier"
+          - name: execution_date
+            description: "Execution date"
+          - name: state
+            description: "Task state"

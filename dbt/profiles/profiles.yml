@@ -1,0 +1,56 @@
+# DBT Profiles Configuration for ODS ETL System
+# This file configures database connections for different environments
+
+ods_etl:
+  target: production
+  outputs:
+    # Development environment (for testing)
+    development:
+      type: postgres
+      host: postgres
+      user: ods
+      password: ods
+      port: 5432
+      dbname: ods
+      schema: dbt_dev
+      threads: 2
+      keepalives_idle: 0
+      search_path: "dbt_dev,staging,public"
+      
+    # Staging environment
+    staging:
+      type: postgres
+      host: postgres
+      user: ods
+      password: ods
+      port: 5432
+      dbname: ods
+      schema: dbt_staging
+      threads: 3
+      keepalives_idle: 0
+      search_path: "dbt_staging,staging,public"
+      
+    # Production environment (default)
+    production:
+      type: postgres
+      host: postgres
+      user: ods
+      password: ods
+      port: 5432
+      dbname: ods
+      schema: public
+      threads: 4
+      keepalives_idle: 0
+      search_path: "public,staging,casreport,bccp,cms"
+      
+    # Alternative connection for airflow metadata
+    airflow_metadata:
+      type: postgres
+      host: postgres
+      user: airflow
+      password: airflow
+      port: 5432
+      dbname: airflow
+      schema: public
+      threads: 2
+      keepalives_idle: 0

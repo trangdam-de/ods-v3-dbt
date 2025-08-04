@@ -1,0 +1,46 @@
+TRUNCATE TABLE {{ params.des_schema }}.{{ params.des_table }} ; 
+INSERT INTO {{ params.des_schema }}_{{ params.des_table }}
+(
+    mail_service_id,
+    mail_service_name,
+    created,
+    createdby,
+    updated,
+    updatedby,
+    status,
+    type,
+    scope,
+    issize,
+    service_group_id,
+    service_report,
+    tax_rate_code,
+    business_code,
+    clue_payment,
+    tax_declaration_code,
+    item_code_account,
+    service_symbol,
+    service_type,
+    is_bilateral
+  )
+  SELECT
+    source.mail_service_id,
+    source.mail_service_name,
+    source.created,
+    source.createdby,
+    source.updated,
+    source.updatedby,
+    source.status,
+    source.type,
+    source.scope,
+    source.issize,
+    source.service_group_id,
+    source.service_report,
+    source.tax_rate_code,
+    source.business_code,
+    source.clue_payment,
+    source.tax_declaration_code,
+    source.item_code_account,
+    source.service_symbol,
+    source.service_type,
+    source.is_bilateral
+   FROM staging.{{ params.des_schema }}_{{ params.des_table }} source;

@@ -1,0 +1,60 @@
+{
+    "staging_revenue_by_employee": {
+      "ods_conn_id": "staging_conn_id",
+      "staging_conn_id": "llb_conn_id", 
+      "mssql_conn_id": "llb_conn_id",
+      "middle_storage_conn_id": "minio_conn_id",
+      "src_schema_name": "casreport",
+      "src_table_name": "f_item_s98",
+      "des_schema_name": "llb",
+      "des_table_name": "staging_revenue_by_employee",
+      "sql_skip": 1, 
+      "chunk_size": 100000,
+      "bucket_name": "daily",
+      "columns": {
+        "tran_date_id": "int",
+        "created_by": "string",
+        "post_code": "string",
+        "contractid": "string",
+        "customerid": "string",
+        "tran_code": "string",
+        "ma_spdv": "string",
+        "ma_doanh_thu": "string",
+        "nhom_nghiep_vu": "string",
+        "revenue": "float64",
+        "sales": "float64",
+        "tran_id": "string"
+      }
+    },
+    "staging_d_service_product": {
+      "ods_conn_id": "staging_conn_id",
+      "staging_conn_id": "llb_conn_id",
+      "mssql_conn_id": "llb_conn_id",
+      "middle_storage_conn_id": "minio_conn_id",
+      "src_schema_name": "casreport",
+      "src_table_name": "d_service_product",
+      "des_schema_name": "llb",
+      "des_table_name": "staging_d_service_product",
+      "sql_skip": 1,
+      "chunk_size": 100000,
+      "bucket_name": "daily",
+      "columns": {
+        "row_item_code": "string",
+        "row_item_name": "string",
+        "nhom_chitieu": "string",
+        "ma_spdv": "string",
+        "ten_spdv": "string",
+        "ma_nhom_spdv": "string",
+        "ten_nhom_spdv": "string",
+        "nuoc_phattra": "string",
+        "pv_pv": "string",
+        "dv_gtgt": "string",
+        "is_gtg021": "string",
+        "is_gtg038": "string",
+        "is_gtg039": "string",
+        "ngay_hl": "datetime64[ns]",
+        "ngay_kt": "datetime64[ns]"
+      }
+    }
+  }
+  

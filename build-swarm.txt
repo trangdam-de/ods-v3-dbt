@@ -1,0 +1,149 @@
+Bước 1: Chuẩn bị các node
+Cài đặt Docker trên cả hai node (nếu chưa có):
+bash
+sudo apt update
+sudo apt install docker.io -y
+sudo systemctl enable docker
+sudo systemctl start docker
+
+Khởi tạo Docker Swarm trên node chính (node 1): Trên node 1, chạy lệnh để khởi tạo Swarm:
+bash
+docker swarm init --advertise-addr <IP_NODE_1>
+Lệnh này sẽ trả về một lệnh docker swarm join với token. Ví dụ:
+bash
+
+docker swarm join --token <TOKEN> <IP_NODE_1>:2377
+Thêm node thứ hai (worker): Trên node 2, chạy lệnh docker swarm join từ output của bước trước:
+bash
+
+docker swarm join --token <TOKEN> <IP_NODE_1>:2377
+Gán nhãn (label) cho các node:
+Trên node 1 (chạy lệnh trên node chính):
+bash
+
+docker node update --label-add type=primary <NODE_1_ID>
+Trên node 2:
+bash
+
+docker node update --label-add type=worker <NODE_2_ID>
+Để lấy <NODE_ID>, chạy docker node ls trên node chính.
+Bước 2: Chuẩn bị mạng và volume
+Tạo mạng overlay: Trên node chính, tạo mạng ods_network:
+bash
+
+docker network create -d overlay --attachable ods_network
+Chuẩn bị shared storage (nếu cần): Vì các volume như pgdata, minio_data và các thư mục Airflow (dags, logs,...) cần được truy cập từ cả hai node, bạn có thể:
+Sử dụng NFS hoặc hệ thống lưu trữ chia sẻ khác.
+Hoặc đồng bộ thư mục ${AIRFLOW_PROJ_DIR} giữa các node bằng rsync hoặc công cụ tương tự. Ví dụ, với NFS:
+Cài NFS server trên node 1:
+bash
+
+sudo apt install nfs-kernel-server
+
+sudo mkdir -p /srv/nfs/airflow
+
+
+cp -r /home/trang-node1/odsv1/airflow/* /srv/nfs/airflow/
+
+
+sudo chown nobody:nogroup /srv/nfs/airflow
+
+sudo chmod 777 /srv/nfs/airflow
+
+sudo mkdir -p /mnt/airflow
+
+
+
+echo "/srv/nfs/airflow *(rw,sync,no_subtree_check,no_root_squash)" | sudo tee -a /etc/exports
+sudo chmod -R 777 /mnt/airflow
+
+sudo exportfs -a
+
+sudo mount localhost:/srv/nfs/airflow /mnt/airflow
+
+df -h | grep airflow
+
+sudo systemctl restart nfs-kernel-server
+Trên node 2, cài NFS client và mount:
+bash
+
+sudo apt install nfs-common
+sudo mkdir -p /mnt/airflow
+sudo mount <IP_NODE_1>:/srv/nfs/airflow /mnt/airflow
+echo "<IP_OF_TRANG_NODE1>:/srv/nfs/airflow /mnt/airflow nfs defaults 0 0" | sudo tee -a /etc/fstab
+sudo mount -a
+
+df -h | grep airflow
+sudo chmod -R 777 /mnt/airflow
+
+Bước 3: Triển khai stack 
+
+
+
+nếu có lỗi không vào được connection ui , -> phải clear encrypted passwords - Xóa passwords cũ không thể decrypt được
+:
+docker exec $(docker ps -q --filter label=com.docker.swarm.service.name=airflow_postgres) psql -U airflow -d airflow -c "SELECT conn_id, conn_type FROM connection WHERE password IS NOT NULL;"
+docker exec $(docker ps -q --filter label=com.docker.swarm.service.name=airflow_postgres) psql -U airflow -d airflow -c "UPDATE connection SET password = NULL WHERE password IS NOT NULL;"
+docker service update --force airflow_airflow-webserver
+
+
+lỗi ở airflow init khi immport connection :cryptography.fernet.InvalidToken 
+fix bằng cách xóa docker volume rm airflow_pgdata hoặc vào metadata airflow xóa
+
+Thay <your_fernet_key> bằng khóa Fernet của Airflow (tạo bằng python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())").
+Triển khai stack trên node chính:
+bash
+
+docker stack deploy -c docker-compose.yml airflow
+Kiểm tra trạng thái:
+bash
+
+docker stack services airflow
+docker service ls
+Đảm bảo tất cả các service (postgres, redis, airflow-scheduler, airflow-webserver, airflow-worker-1, airflow-worker-2,...) đang chạy.
+Bước 4: Kiểm tra và cấu hình
+Nếu có lỗi không đọc được log mminio khi đã ghi vào được rồi thì :
+delete connect minio ở airflow-init , sửa connection minio rồi mới dựng
+
+Truy cập Airflow Webserver:
+Mở trình duyệt và truy cập http://<IP_NODE_1>:8080.
+Đăng nhập với tài khoản mặc định (hoặc tài khoản đã cấu hình trong airflow-init).
+Kiểm tra worker:
+Đảm bảo airflow-worker-2 đang chạy trên node thứ hai:
+bash
+
+docker node ps <NODE_2_ID>
+Trong giao diện Airflow, kiểm tra tab Admin > Workers để thấy cả hai worker (airflow-worker-1 và airflow-worker-2).
+Kiểm tra log:
+Xem log của các service để phát hiện lỗi:
+bash
+
+docker service logs airflow_airflow-worker-2
+
+Theo dõi tài nguyên: Sử dụng công cụ như htop hoặc docker stats để kiểm tra RAM trên cả hai node.
+Lưu ý quan trọng
+Redis và Postgres: Đảm bảo redis và postgres chỉ chạy trên node chính (primary) để tránh xung đột.
+Mạng: Mạng overlay giúp các container giao tiếp giữa các node. Đảm bảo firewall cho phép cổng 2377 (Swarm), 7946 (gossip), và 4789 (overlay).
+Shared storage: Nếu không dùng NFS, bạn cần đồng bộ thủ công các thư mục dags, logs,... giữa các node.
+Backup: Sao lưu dữ liệu trong pgdata và minio_data trước khi triển khai.
+Cân bằng tải: Nếu muốn mở rộng thêm, bạn có thể thêm nhiều worker trên node 2 hoặc các node khác.
+
+
+Các bước đồng bộ code chạy sync-code.sh : 
+chmod +x /home/trang-node1/odsv1/airflow/sync-code.sh
+
+
+Cách Sử Dụng Script Sync:
+1. Sync đầy đủ (khi có nhiều thay đổi):
+cd /home/trang-node1/odsv1/airflow
+./sync-code.sh full
+
+2. Sync nhanh chỉ DAGs (thường xuyên nhất):
+./sync-code.sh dags
+
+3. Auto-sync (chạy trong background):
+
+./sync-code.sh watch &
+
+4. Kiểm tra trạng thái:
+./sync-code.sh status

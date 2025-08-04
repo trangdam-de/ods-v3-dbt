@@ -1,0 +1,53 @@
+# DBT Test Configurations
+version: 2
+
+models:
+  - name: stg_casreport__v_prd_srv
+    description: "Staging model for CASREPORT service products"
+    columns:
+      - name: prd_srv_code
+        description: "Service product code"
+        tests:
+          - not_null
+          - unique
+      - name: prd_srv_name
+        description: "Service product name"
+        tests:
+          - not_null
+      - name: dbt_updated_at
+        description: "DBT processing timestamp"
+        tests:
+          - not_null
+
+  - name: dim_casreport_services
+    description: "Dimension table for CASREPORT services"
+    tests:
+      - dbt_utils.expression_is_true:
+          expression: "count(*) > 0"
+          config:
+            severity: error
+    columns:
+      - name: prd_srv_code
+        description: "Service product code (Primary Key)"
+        tests:
+          - not_null
+          - unique
+      - name: prd_srv_name
+        description: "Service product name"
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_not_be_null:
+              config:
+                severity: warn
+      - name: prd_srv_group_code
+        description: "Service group code"
+      - name: prd_srv_group_name
+        description: "Service group name"
+      - name: line
+        description: "Service line"
+      - name: prd_srv_code_name
+        description: "Combined service code and name"
+      - name: dbt_updated_at
+        description: "Last update timestamp"
+        tests:
+          - not_null

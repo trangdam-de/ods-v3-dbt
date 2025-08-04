@@ -1,0 +1,45 @@
+checks for fee_type:
+  - schema:
+      fail:
+        when required column missing: [fee_type_id, fee_type_name, fee_type_code, fee_type_group_id, created, createdby, updated, updatedby, status]
+        when wrong column type: 
+          fee_type_id : varchar
+          fee_type_name: varchar
+          fee_type_code: varchar
+          fee_type_group_id: varchar
+          created: timestamp
+          createdby: varchar
+          updated: timestamp
+          updatedby: varchar
+          status: bigint
+
+checks for fee_type_group:
+  - schema:
+      fail:
+        when required column missing: [fee_type_group_id, fee_type_group_name, created, createdby, updated, status]
+        when wrong column type: 
+          fee_type_group_id: varchar
+          fee_type_group_name: varchar
+          created: timestamp
+          createdby: varchar
+          updated: timestamp
+          status: bigint
+
+checks for va_service:
+  - schema:
+      fail:
+        when required column missing: [va_service_id, va_service_name, fee_type_group_id, created, createdby, updated, updatedby, status, case, symbol, incident, tax_declaration_code, tax_rate_code  ]
+        when wrong column type: 
+          va_service_id: varchar
+          va_service_name: varchar
+          fee_type_group_id: varchar
+          created: timestamp
+          createdby: varchar
+          updated: timestamp
+          updatedby: varchar
+          status: bigint
+          case: bigint
+          symbol: varchar
+          incident: bigint
+          tax_declaration_code: varchar
+          tax_rate_code: varchar

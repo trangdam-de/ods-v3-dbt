@@ -1,0 +1,11 @@
+checks for v_prd_srv:
+  - schema:
+      fail:
+        when required column missing: [prd_srv_code, prd_srv_name, prd_srv_group_code, prd_srv_group_name, line, prd_srv_code_name]
+        when wrong column type: 
+          prd_srv_code: varchar
+          prd_srv_name: varchar
+          prd_srv_group_code: varchar
+          prd_srv_group_name: varchar
+          line: varchar
+          prd_srv_code_name: varchar

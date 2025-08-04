@@ -1,0 +1,109 @@
+{
+  "casadmin_conn_id": {
+    "conn_type": "oracle",
+    "host": "172.0.20.0",
+    "login": "casadmin",
+    "password": "casadmin",
+    "schema": "casadmin",
+    "port": 1521,
+    "extra": {
+      "service_name": "cas"
+    }
+  },
+  "bccp_conn_id": {
+    "conn_type": "mssql",
+    "host": "172.20.20.0",
+    "login": "crm",
+    "password": "Crm",
+    "schema": "ppsql",
+    "port": 1433
+  },
+  "cms_conn_id": {
+    "conn_type": "oracle",
+    "host": "172.22.0.0",
+    "login": "ods",
+    "password": "ods",
+    "schema": "ods",
+    "port": 1521,
+    "extra": {
+      "service_name": "cms"
+    }
+  },
+  "staging_conn_id": {
+    "conn_type": "postgres",
+    "host": "172.16.0.0",
+    "login": "ods",
+    "password": "ods",
+    "schema": "ods",
+    "port": 5432
+  },
+  "ftp_server_conn_id": {
+    "conn_type": "FTP",
+    "host": "10.21.0.30",
+    "login": "ttp",
+    "password": "dev",
+    "port": 21
+  },
+  "datamart_conn_id": {
+    "conn_type": "ftp",
+    "host": "172.20.0.0",
+    "login": "postgres",
+    "password": "postgres",
+    "schema": "abc",
+    "port": 5432,
+    "extra": {
+      "dbname": "ods"
+    }
+  },
+  "casreport_conn_id": {
+    "conn_type": "oracle",
+    "host": "172.0.0.0",
+    "login": "",
+    "password": "",
+    "schema": "",
+    "port": 1521,
+    "extra": {
+      "service_name": ""
+    }
+  },
+  "result_connection_id": {
+    "conn_type": "postgres",
+    "host": "172.0.0.0",
+    "login": "ods",
+    "password": "ods",
+    "schema": "ods",
+    "port": 5432
+  },
+  "minio_conn_id": { 
+    "conn_type": "aws",
+    "port": 9000,
+    "extra": {
+      "endpoint_url": "http://minio:9000",
+      "aws_access_key_id": "admin",
+      "aws_secret_access_key": "admin123",
+      "service_config": {
+        "s3": {
+          "bucket_name": "logs"
+        }
+      }
+    }
+  },
+  "minio_ftp_conn_id": {
+    "conn_type": "aws",
+    "port": 9000,
+    "extra": {
+      "endpoint_url": "http://minio:9000",
+      "aws_access_key_id": "admin",
+      "aws_secret_access_key": "admin123"
+    }
+  },
+  "sftp_server_conn_id": {
+    "conn_type": "sftp",
+    "description": "Connection to SFTP server",
+    "host": "",
+    "login": "b",
+    "password":"a",
+    "port": 22
+  }
+}
+
